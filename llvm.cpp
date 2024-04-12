@@ -11,7 +11,15 @@ class MyOptimizationPass : public PassInfoMixin<MyOptimizationPass> {
 public:
   PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
     errs() << "Function name: " << F.getName() << "\n";
-    return PreservedAnalyses::all();
+
+    // Insert new variable at the beginning of the function
+    LLVMContext &Ctx = F.getContext();
+    IRBuilder<> Builder(&F.getEntryBlock(), F.getEntryBlock().begin());
+    Type *Int32Ty = Type::getInt32Ty(Ctx);
+    Value *NewVar = Builder.CreateAlloca(Int32Ty, nullptr, "new_var");
+
+    // Indicate that the function was modified
+    return PreservedAnalyses::none();
   }
 };
 
@@ -21,7 +29,7 @@ extern "C" LLVM_ATTRIBUTE_WEAK PassPluginLibraryInfo llvmGetPassPluginInfo() {
         [](PassBuilder &PB) {
             PB.registerPipelineParsingCallback(
                 [](StringRef Name, FunctionPassManager &FPM, ArrayRef<PassBuilder::PipelineElement>) {
-                    if (Name == "mypass") {
+                    if (Name == "myopt") {
                         FPM.addPass(MyOptimizationPass());
                         return true;
                     }

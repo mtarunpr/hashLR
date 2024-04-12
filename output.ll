@@ -1,4 +1,4 @@
-; ModuleID = 'example.c'
+; ModuleID = 'example.ll'
 source_filename = "example.c"
 target datalayout = "e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-apple-macosx14.0.0"
@@ -7,6 +7,7 @@ target triple = "x86_64-apple-macosx14.0.0"
 
 ; Function Attrs: nofree nounwind ssp uwtable
 define i32 @main() local_unnamed_addr #0 {
+  %new_var = alloca i32, align 4
   %1 = tail call i32 @puts(ptr nonnull dereferenceable(1) @str)
   ret i32 0
 }
