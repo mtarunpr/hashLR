@@ -1,19 +1,17 @@
 # CS 263 Final Project
 
-To compile the LLVM pass:
+In the LLVM project repo, to compile LLVM with the additional CodeGen pass:
+
+
 
 ```bash
-clang++ -shared -o llvm_pass.so -fPIC $(llvm-config --cxxflags --ldflags --libs core irreader) llvm_pass.cpp $(llvm-config --system-libs)
+cmake -S llvm -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86
+ninja -C build
 ```
 
-To compile the code you want to run the pass on:
+In this repo, to compile (to LLVM) the code you want to run the pass on, and then compile the LLVM to assembly code (including the additional CodeGen pass):
 
 ```bash
-clang -S -emit-llvm -o example.ll example.c -O1 -arch x86_64          
-```
-
-To run the pass:
-
-```bash
-opt -load-pass-plugin=./llvm_pass.so -passes="myopt" -S example.ll -o output.ll
+clang -S -emit-llvm -o example.ll example.c -arch x86_64
+/path/to/llvm/repo/build/bin/llc  example.ll -o output.S  
 ```
