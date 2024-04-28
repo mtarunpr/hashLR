@@ -21,5 +21,15 @@ int main()
 int hello()
 {
     printf("test");
+    int b;
+
+    if (b == 3)
+    {
+        return 8;
+    }
+    else
+    {
+        return 9;
+    }
     return 0;
 }

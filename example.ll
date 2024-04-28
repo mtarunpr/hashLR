@@ -42,8 +42,24 @@ declare i32 @printf(ptr noundef, ...) #1
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable
 define i32 @hello() #0 {
-  %1 = call i32 (ptr, ...) @printf(ptr noundef @.str.3)
-  ret i32 0
+  %1 = alloca i32, align 4
+  %2 = alloca i32, align 4
+  %3 = call i32 (ptr, ...) @printf(ptr noundef @.str.3)
+  %4 = load i32, ptr %2, align 4
+  %5 = icmp eq i32 %4, 3
+  br i1 %5, label %6, label %7
+
+6:                                                ; preds = %0
+  store i32 8, ptr %1, align 4
+  br label %8
+
+7:                                                ; preds = %0
+  store i32 9, ptr %1, align 4
+  br label %8
+
+8:                                                ; preds = %7, %6
+  %9 = load i32, ptr %1, align 4
+  ret i32 %9
 }
 
 attributes #0 = { noinline nounwind optnone ssp uwtable "darwin-stkchk-strong-link" "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "probe-stack"="___chkstk_darwin" "stack-protector-buffer-size"="8" "target-cpu"="penryn" "target-features"="+cx16,+cx8,+fxsr,+mmx,+sahf,+sse,+sse2,+sse3,+sse4.1,+ssse3,+x87" "tune-cpu"="generic" }

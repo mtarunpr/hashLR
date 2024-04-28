@@ -49,10 +49,20 @@ _hello:                                 ## @hello
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register %rbp
+	subq	$16, %rsp
 	leaq	L_.str.3(%rip), %rdi
 	movb	$0, %al
 	callq	_printf
-	xorl	%eax, %eax
+	cmpl	$3, -8(%rbp)
+	jne	LBB1_2
+## %bb.1:
+	movl	$8, -4(%rbp)
+	jmp	LBB1_3
+LBB1_2:
+	movl	$9, -4(%rbp)
+LBB1_3:
+	movl	-4(%rbp), %eax
+	addq	$16, %rsp
 	popq	%rbp
 	retq
 	.cfi_endproc

@@ -2,8 +2,6 @@
 
 In the LLVM project repo, to compile LLVM with the additional CodeGen pass:
 
-
-
 ```bash
 cmake -S llvm -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86
 ninja -C build
