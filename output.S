@@ -15,32 +15,31 @@ _main:                                  ## @main
 	leaq	L_.str(%rip), %rdi
 	leaq	-4(%rbp), %rsi
 	movb	$0, %al
-	movabsq	$6952033854384, %rax            ## imm = 0x652A58223B0
-	movq	%rax, %xmm1
+	movabsq	$6952033854384, %r10            ## imm = 0x652A58223B0
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
 	## InlineAsm End
-	calll	*%rax
-                                        ## kill: def $eax killed $eax killed $rax
+	calll	*%r10
 	cmpl	$0, -4(%rbp)
 	jne	LBB0_1
-	movabsq	$8246626412459133484, %rax      ## imm = 0x7271E70795FB0A2C
-	movq	%rax, %xmm1
+	movabsq	$8246626412459133484, %r10      ## imm = 0x7271E70795FB0A2C
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
 	## InlineAsm End
 	jmpl	*%eax
 LBB0_1:
-	movabsq	$8246626412459133485, %rax      ## imm = 0x7271E70795FB0A2D
-	movq	%rax, %xmm1
+	movabsq	$8246626412459133485, %r10      ## imm = 0x7271E70795FB0A2D
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
@@ -49,47 +48,45 @@ LBB0_1:
 LBB0_2:
 	leaq	L_.str.1(%rip), %rdi
 	movb	$0, %al
-	movabsq	$229417017865368, %rax          ## imm = 0xD0A74FDAF498
-	movq	%rax, %xmm1
+	movabsq	$229417017865368, %r10          ## imm = 0xD0A74FDAF498
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
 	## InlineAsm End
-	calll	*%rax
-                                        ## kill: def $eax killed $eax killed $rax
-	movabsq	$8246626412459133486, %rax      ## imm = 0x7271E70795FB0A2E
-	movq	%rax, %xmm1
+	calll	*%r10
+	movabsq	$8246626412459133486, %r10      ## imm = 0x7271E70795FB0A2E
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
 	## InlineAsm End
 	jmpl	*%eax
 LBB0_3:
-	movl	-4(%rbp), %eax
-	imull	-4(%rbp), %eax
-	sarl	$2, %eax
-	movl	%eax, -8(%rbp)
+	movl	-4(%rbp), %ecx
+	imull	-4(%rbp), %ecx
+	sarl	$2, %ecx
+	movl	%ecx, -8(%rbp)
 	leaq	L_.str.2(%rip), %rdi
 	movl	$2, %esi
 	movb	$0, %al
-	movabsq	$229417017865368, %rax          ## imm = 0xD0A74FDAF498
-	movq	%rax, %xmm1
+	movabsq	$229417017865368, %r10          ## imm = 0xD0A74FDAF498
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
 	## InlineAsm End
-	calll	*%rax
-                                        ## kill: def $eax killed $eax killed $rax
-	movabsq	$8246626412459133486, %rax      ## imm = 0x7271E70795FB0A2E
-	movq	%rax, %xmm1
+	calll	*%r10
+	movabsq	$8246626412459133486, %r10      ## imm = 0x7271E70795FB0A2E
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
@@ -115,32 +112,31 @@ _hello:                                 ## @hello
 	subq	$16, %rsp
 	leaq	L_.str.3(%rip), %rdi
 	movb	$0, %al
-	movabsq	$229417017865368, %rax          ## imm = 0xD0A74FDAF498
-	movq	%rax, %xmm1
+	movabsq	$229417017865368, %r10          ## imm = 0xD0A74FDAF498
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
 	## InlineAsm End
-	calll	*%rax
-                                        ## kill: def $eax killed $eax killed $rax
+	calll	*%r10
 	cmpl	$3, -8(%rbp)
 	jne	LBB1_1
-	movabsq	$-4569957540294253925, %rax     ## imm = 0xC0943FD46C24A29B
-	movq	%rax, %xmm1
+	movabsq	$-4569957540294253925, %r10     ## imm = 0xC0943FD46C24A29B
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
 	## InlineAsm End
 	jmpl	*%eax
 LBB1_1:
-	movabsq	$-4569957540294253924, %rax     ## imm = 0xC0943FD46C24A29C
-	movq	%rax, %xmm1
+	movabsq	$-4569957540294253924, %r10     ## imm = 0xC0943FD46C24A29C
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
@@ -148,10 +144,10 @@ LBB1_1:
 	jmpl	*%eax
 LBB1_2:
 	movl	$8, -4(%rbp)
-	movabsq	$-4569957540294253923, %rax     ## imm = 0xC0943FD46C24A29D
-	movq	%rax, %xmm1
+	movabsq	$-4569957540294253923, %r10     ## imm = 0xC0943FD46C24A29D
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
@@ -159,10 +155,10 @@ LBB1_2:
 	jmpl	*%eax
 LBB1_3:
 	movl	$9, -4(%rbp)
-	movabsq	$-4569957540294253923, %rax     ## imm = 0xC0943FD46C24A29D
-	movq	%rax, %xmm1
+	movabsq	$-4569957540294253923, %r10     ## imm = 0xC0943FD46C24A29D
+	movq	%r10, %xmm1
 	## InlineAsm Start
-	aesenc	%xmm0, %xmm1
+	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
 	movd	%xmm1, %eax
