@@ -1,31 +1,44 @@
 import re
 
-def extract_objdump(source_file_path, output_file_path):
-    with open(source_file_path, 'r') as file:
-        source_code = file.read()
 
-    pattern = re.compile(
-        r'/\*[^*]*\*+(?:[^/*][^*]*\*+)*/',
-        re.DOTALL
-    )
+def extract_objdump(objdump_file, output_file, bb_identifiers_file):
 
-    potential_matches = pattern.findall(source_code)
-    assembly_code = None
+    with open(objdump_file, "r") as f:
+        with open(bb_identifiers_file, "r") as bb_identifiers:
+            with open(output_file, "w") as out:
+                objdump = f.read()
 
-    for match in potential_matches:
-        # Check if this block contains any lines starting with a hexadecimal address
-        if re.search(r'^\s*[0-9a-f]+:\s+', match, re.MULTILINE):
-            assembly_code = match
-            break
+                # Extract all basic blocks
+                basic_blocks = re.findall(r".+?(?:jmp|ret|>:)", objdump, re.DOTALL)
 
-    if assembly_code:
-        trimmed_code = re.sub(r'(^\s*/\*|\*/\s*$)', '', assembly_code, flags=re.DOTALL).strip()
-        with open(output_file_path, 'w') as output_file:
-            output_file.write(trimmed_code)
-            print(f"Assembly code written to {output_file_path}")
-    else:
-        print("No assembly code block found in the source file.")
+                # For each block, extract machine code
+                for block in basic_blocks:
+                    hex = []
 
-source_cpp_path = 'hashinjection/injector.cpp'
-output_asm_path = 'output_asm.txt'
-extract_objdump(source_cpp_path, output_asm_path)
+                    # Extract all lines
+                    x86_lines = re.findall(
+                        r"[0-9a-fA-F]+:\s((?:[0-9a-fA-F]{2}\s)+)", block
+                    )
+
+                    # For each line, extract the hex numbers and put them all in a list
+                    for line in x86_lines:
+                        hex_numbers = line.split()
+                        hex += hex_numbers
+
+                    if len(hex) == 0 or ('jmp' not in block and 'ret' not in block):
+                        continue
+
+                    bb_identifier = bb_identifiers.readline().strip()
+
+                    # Write the basic block identifier
+                    out.write("\n" + bb_identifier + "\n")
+
+                    # Group together 8 bytes and write them in reverse order as a single hexadecimal number
+                    for i in range(0, len(hex), 8):
+                        out.write("0x" + "".join(hex[i : i + 8][::-1]) + "\n")
+
+
+source_objdump_path = "hashinjection/runner-hashlr.txt"
+output_bytes_path = "hashinjection/runner-hashlr_bytes.txt"
+bb_identifiers_path = "hashinjection/runner-hashlr_bb_identifiers.txt"
+extract_objdump(source_objdump_path, output_bytes_path, bb_identifiers_path)
