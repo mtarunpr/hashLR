@@ -1,5 +1,5 @@
-	.section	__TEXT,__text,regular,pure_instructions
-	.build_version macos, 14, 0
+	.file	"runnerhashlr.cpp"
+	.text
 	.globl	__Z4funci                       ## -- Begin function _Z4funci
 	.p2align	4, 0x90
 __Z4funci:                              ## @_Z4funci
