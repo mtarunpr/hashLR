@@ -1,63 +1,74 @@
+0000000000001130 <_Z4funci>:
+    1130:	55                   	push   %rbp
+    1131:	48 89 e5             	mov    %rsp,%rbp
+    1134:	89 7d fc             	mov    %edi,-0x4(%rbp)
+    1137:	5d                   	pop    %rbp
+    1138:	c3                   	ret    
+    1139:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
 
-hashinjection/runner-hashlr:	file format mach-o 64-bit x86-64
+0000000000001140 <main>:
+    1140:	55                   	push   %rbp
+    1141:	48 89 e5             	mov    %rsp,%rbp
+    1144:	48 83 ec 10          	sub    $0x10,%rsp
+    1148:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%rbp)
+    114f:	c7 45 f8 00 00 00 00 	movl   $0x0,-0x8(%rbp)
+    1156:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+    115d:	49 ba 2c 0a fb 95 07 	movabs $0x7271e70795fb0a2c,%r10
+    1164:	e7 71 72 
+    1167:	66 49 0f 6e ca       	movq   %r10,%xmm1
+    116c:	66 0f 38 dc cf       	aesenc %xmm7,%xmm1
+    1171:	66 49 0f 7e ca       	movq   %xmm1,%r10
+    1176:	41 ff e2             	jmp    *%r10
 
-Disassembly of section __TEXT,__text:
+0000000000001179 <LBB1_1>:
+    1179:	81 7d fc ff ff ff 7f 	cmpl   $0x7fffffff,-0x4(%rbp)
+    1180:	7d 1c                	jge    119e <LBB1_2>
+    1182:	49 ba 2d 0a fb 95 07 	movabs $0x7271e70795fb0a2d,%r10
+    1189:	e7 71 72 
+    118c:	66 49 0f 6e ca       	movq   %r10,%xmm1
+    1191:	66 0f 38 dc cf       	aesenc %xmm7,%xmm1
+    1196:	66 49 0f 7e ca       	movq   %xmm1,%r10
+    119b:	41 ff e2             	jmp    *%r10
 
-0000000100003eb0 <__Z4funci>:
-100003eb0: 55                          	pushq	%rbp
-100003eb1: 48 89 e5                    	movq	%rsp, %rbp
-100003eb4: 89 7d fc                    	movl	%edi, -4(%rbp)
-100003eb7: 5d                          	popq	%rbp
-100003eb8: c3                          	retq
-100003eb9: 0f 1f 80 00 00 00 00        	nopl	(%rax)
+000000000000119e <LBB1_2>:
+    119e:	49 ba 2f 0a fb 95 07 	movabs $0x7271e70795fb0a2f,%r10
+    11a5:	e7 71 72 
+    11a8:	66 49 0f 6e ca       	movq   %r10,%xmm1
+    11ad:	66 0f 38 dc cf       	aesenc %xmm7,%xmm1
+    11b2:	66 49 0f 7e ca       	movq   %xmm1,%r10
+    11b7:	41 ff e2             	jmp    *%r10
 
-0000000100003ec0 <_main>:
-100003ec0: 55                          	pushq	%rbp
-100003ec1: 48 89 e5                    	movq	%rsp, %rbp
-100003ec4: 48 83 ec 10                 	subq	$16, %rsp
-100003ec8: c7 45 f4 00 00 00 00        	movl	$0, -12(%rbp)
-100003ecf: c7 45 f8 00 00 00 00        	movl	$0, -8(%rbp)
-100003ed6: c7 45 fc 00 00 00 00        	movl	$0, -4(%rbp)
-100003edd: 49 ba 2c 0a fb 95 07 e7 71 72       	movabsq	$8246626412459133484, %r10 ## imm = 0x7271E70795FB0A2C
-100003ee7: 66 49 0f 6e ca              	movq	%r10, %xmm1
-100003eec: 66 0f 38 dc cf              	aesenc	%xmm7, %xmm1
-100003ef1: 66 49 0f 7e ca              	movq	%xmm1, %r10
-100003ef6: 41 ff e2                    	jmpq	*%r10
-100003ef9: 81 7d fc ff ff ff 7f        	cmpl	$2147483647, -4(%rbp)   ## imm = 0x7FFFFFFF
-100003f00: 7d 1c                       	jge	0x100003f1e <_main+0x5e>
-100003f02: 49 ba 2d 0a fb 95 07 e7 71 72       	movabsq	$8246626412459133485, %r10 ## imm = 0x7271E70795FB0A2D
-100003f0c: 66 49 0f 6e ca              	movq	%r10, %xmm1
-100003f11: 66 0f 38 dc cf              	aesenc	%xmm7, %xmm1
-100003f16: 66 49 0f 7e ca              	movq	%xmm1, %r10
-100003f1b: 41 ff e2                    	jmpq	*%r10
-100003f1e: 49 ba 2f 0a fb 95 07 e7 71 72       	movabsq	$8246626412459133487, %r10 ## imm = 0x7271E70795FB0A2F
-100003f28: 66 49 0f 6e ca              	movq	%r10, %xmm1
-100003f2d: 66 0f 38 dc cf              	aesenc	%xmm7, %xmm1
-100003f32: 66 49 0f 7e ca              	movq	%xmm1, %r10
-100003f37: 41 ff e2                    	jmpq	*%r10
-100003f3a: 8b 7d fc                    	movl	-4(%rbp), %edi
-100003f3d: 49 ba 68 27 89 65 f4 12 85 0a       	movabsq	$758032953166604136, %r10 ## imm = 0xA8512F465892768
-100003f47: 66 49 0f 6e ca              	movq	%r10, %xmm1
-100003f4c: 66 0f 38 dc cf              	aesenc	%xmm7, %xmm1
-100003f51: 66 49 0f 7e ca              	movq	%xmm1, %r10
-100003f56: 41 ff d2                    	callq	*%r10
-100003f59: 8b 45 f8                    	movl	-8(%rbp), %eax
-100003f5c: 83 c0 01                    	addl	$1, %eax
-100003f5f: 89 45 f8                    	movl	%eax, -8(%rbp)
-100003f62: 49 ba 2e 0a fb 95 07 e7 71 72       	movabsq	$8246626412459133486, %r10 ## imm = 0x7271E70795FB0A2E
-100003f6c: 66 49 0f 6e ca              	movq	%r10, %xmm1
-100003f71: 66 0f 38 dc cf              	aesenc	%xmm7, %xmm1
-100003f76: 66 49 0f 7e ca              	movq	%xmm1, %r10
-100003f7b: 41 ff e2                    	jmpq	*%r10
-100003f7e: 8b 45 fc                    	movl	-4(%rbp), %eax
-100003f81: 83 c0 01                    	addl	$1, %eax
-100003f84: 89 45 fc                    	movl	%eax, -4(%rbp)
-100003f87: 49 ba 2c 0a fb 95 07 e7 71 72       	movabsq	$8246626412459133484, %r10 ## imm = 0x7271E70795FB0A2C
-100003f91: 66 49 0f 6e ca              	movq	%r10, %xmm1
-100003f96: 66 0f 38 dc cf              	aesenc	%xmm7, %xmm1
-100003f9b: 66 49 0f 7e ca              	movq	%xmm1, %r10
-100003fa0: 41 ff e2                    	jmpq	*%r10
-100003fa3: 8b 45 f8                    	movl	-8(%rbp), %eax
-100003fa6: 48 83 c4 10                 	addq	$16, %rsp
-100003faa: 5d                          	popq	%rbp
-100003fab: c3                          	retq
+00000000000011ba <LBB1_3>:
+    11ba:	8b 7d fc             	mov    -0x4(%rbp),%edi
+    11bd:	49 ba 68 27 89 65 f4 	movabs $0xa8512f465892768,%r10
+    11c4:	12 85 0a 
+    11c7:	66 49 0f 6e ca       	movq   %r10,%xmm1
+    11cc:	66 0f 38 dc cf       	aesenc %xmm7,%xmm1
+    11d1:	66 49 0f 7e ca       	movq   %xmm1,%r10
+    11d6:	41 ff d2             	call   *%r10
+    11d9:	8b 45 f8             	mov    -0x8(%rbp),%eax
+    11dc:	83 c0 01             	add    $0x1,%eax
+    11df:	89 45 f8             	mov    %eax,-0x8(%rbp)
+    11e2:	49 ba 2e 0a fb 95 07 	movabs $0x7271e70795fb0a2e,%r10
+    11e9:	e7 71 72 
+    11ec:	66 49 0f 6e ca       	movq   %r10,%xmm1
+    11f1:	66 0f 38 dc cf       	aesenc %xmm7,%xmm1
+    11f6:	66 49 0f 7e ca       	movq   %xmm1,%r10
+    11fb:	41 ff e2             	jmp    *%r10
+
+00000000000011fe <LBB1_4>:
+    11fe:	8b 45 fc             	mov    -0x4(%rbp),%eax
+    1201:	83 c0 01             	add    $0x1,%eax
+    1204:	89 45 fc             	mov    %eax,-0x4(%rbp)
+    1207:	49 ba 2c 0a fb 95 07 	movabs $0x7271e70795fb0a2c,%r10
+    120e:	e7 71 72 
+    1211:	66 49 0f 6e ca       	movq   %r10,%xmm1
+    1216:	66 0f 38 dc cf       	aesenc %xmm7,%xmm1
+    121b:	66 49 0f 7e ca       	movq   %xmm1,%r10
+    1220:	41 ff e2             	jmp    *%r10
+
+0000000000001223 <LBB1_5>:
+    1223:	8b 45 f8             	mov    -0x8(%rbp),%eax
+    1226:	48 83 c4 10          	add    $0x10,%rsp
+    122a:	5d                   	pop    %rbp
+    122b:	c3                   	ret    
