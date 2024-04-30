@@ -1,6 +1,42 @@
 import re
 
 
+conditional_jumps = [
+    "jo",
+    "jno",
+    "js",
+    "jns",
+    "je",
+    "jz",
+    "jne",
+    "jnz",
+    "jb",
+    "jnae",
+    "jc",
+    "jnb",
+    "jae",
+    "jnc",
+    "jbe",
+    "jna",
+    "ja",
+    "jnbe",
+    "jl",
+    "jnge",
+    "jge",
+    "jnl",
+    "jle",
+    "jng",
+    "jg",
+    "jnle",
+    "jp",
+    "jpe",
+    "jnp",
+    "jpo",
+    "jcxz",
+    "jecxz",
+]
+
+
 def extract_objdump(objdump_file, output_file, bb_identifiers_file):
 
     with open(objdump_file, "r") as f:
@@ -11,8 +47,13 @@ def extract_objdump(objdump_file, output_file, bb_identifiers_file):
                 # Extract all basic blocks
                 basic_blocks = re.findall(r".+?(?:jmp|ret|>:)", objdump, re.DOTALL)
 
+                skip_next = False
                 # For each block, extract machine code
                 for block in basic_blocks:
+                    if skip_next:
+                        skip_next = False
+                        continue
+
                     hex = []
 
                     # Extract all lines
@@ -25,8 +66,11 @@ def extract_objdump(objdump_file, output_file, bb_identifiers_file):
                         hex_numbers = line.split()
                         hex += hex_numbers
 
-                    if len(hex) == 0 or ('jmp' not in block and 'ret' not in block):
+                    if len(hex) == 0 or ("jmp" not in block and "ret" not in block):
                         continue
+
+                    if any(jump in block for jump in conditional_jumps):
+                        skip_next = True
 
                     bb_identifier = bb_identifiers.readline().strip()
 
