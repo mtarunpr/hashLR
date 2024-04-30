@@ -15,7 +15,7 @@ _main:                                  ## @main
 	leaq	L_.str(%rip), %rdi
 	leaq	-4(%rbp), %rsi
 	movb	$0, %al
-	movabsq	$6952033854384, %r10            ## imm = 0x652A58223B0
+	movabsq	$-4553218391306275311, %r10     ## imm = 0xC0CFB7FF4169F611
 	movq	%r10, %xmm1
 	## InlineAsm Start
 	aesenc	%xmm7, %xmm1
@@ -48,7 +48,7 @@ LBB0_1:
 LBB0_2:
 	leaq	L_.str.1(%rip), %rdi
 	movb	$0, %al
-	movabsq	$229417017865368, %r10          ## imm = 0xD0A74FDAF498
+	movabsq	$-2810535012085319431, %r10     ## imm = 0xD8FEF94C1FDB38F9
 	movq	%r10, %xmm1
 	## InlineAsm Start
 	aesenc	%xmm7, %xmm1
@@ -74,7 +74,7 @@ LBB0_3:
 	leaq	L_.str.2(%rip), %rdi
 	movl	$2, %esi
 	movb	$0, %al
-	movabsq	$229417017865368, %r10          ## imm = 0xD0A74FDAF498
+	movabsq	$-2810535012085319431, %r10     ## imm = 0xD8FEF94C1FDB38F9
 	movq	%r10, %xmm1
 	## InlineAsm Start
 	aesenc	%xmm7, %xmm1
@@ -112,7 +112,7 @@ _hello:                                 ## @hello
 	subq	$16, %rsp
 	leaq	L_.str.3(%rip), %rdi
 	movb	$0, %al
-	movabsq	$229417017865368, %r10          ## imm = 0xD0A74FDAF498
+	movabsq	$-2810535012085319431, %r10     ## imm = 0xD8FEF94C1FDB38F9
 	movq	%r10, %xmm1
 	## InlineAsm Start
 	aesenc	%xmm7, %xmm1
