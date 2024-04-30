@@ -1,0 +1,35 @@
+0000000000001129 <_Z4funci>:
+    1129:	f3 0f 1e fa          	endbr64 
+    112d:	55                   	push   %rbp
+    112e:	48 89 e5             	mov    %rsp,%rbp
+    1131:	89 7d fc             	mov    %edi,-0x4(%rbp)
+    1134:	8b 45 fc             	mov    -0x4(%rbp),%eax
+    1137:	83 c0 01             	add    $0x1,%eax
+    113a:	5d                   	pop    %rbp
+    113b:	c3                   	ret    
+
+    000000000000113c <main>:
+    113c:	f3 0f 1e fa          	endbr64 
+    1140:	55                   	push   %rbp
+    1141:	48 89 e5  *            	mov    %rsp,%rbp
+    1144:	48 83 ec 10          	sub    $0x10,%rsp
+    1148:	c7 45 f4 00 * 00 00 00 	movl   $0x0,-0xc(%rbp)
+    114f:	c7 45 f8 00 00 * 00 00 	movl   $0x0,-0x8(%rbp)
+    1156:	48 c7 c0 37 02 00 * 00 	mov    $0x237,%rax
+    115d:	66 48 0f 6e c0       	movq   %rax,%xmm0
+    1162:	eb 27 *               	jmp    118b <main+0x4f>
+    1164:	8b 45 f8             	mov    -0x8(%rbp),%eax
+    1167:	89 c7                	mov    %eax,%edi
+    1169:	48 c7 c0 * 01 00 00 00 	mov    $0x1,%rax
+    1170:	66 48 0f 6e * c8       	movq   %rax,%xmm1
+    1175:	66 0f 38 dc c8       	aesenc %xmm0,%xmm1
+    117a:	66 0f * 7e c8          	movd   %xmm1,%eax
+    117e:	ff d0                	call   *%rax
+    1180:	89 45 fc             	mov    %eax,-0x4(%rbp)
+    1183:	83 * 45 f4 01          	addl   $0x1,-0xc(%rbp)
+    1187:	83 45 f8 01          	addl   $0x1,-0x8(%rbp)
+    118b:	81 * 7d f8 ff e0 f5 05 	cmpl   $0x5f5e0ff,-0x8(%rbp)
+    1192:	7e d0 *               	jle    1164 <main+0x28>
+    1194:	8b 45 f4             	mov    -0xc(%rbp),%eax
+    1197:	c9                   	leave  
+    1198:	c3                   	ret
