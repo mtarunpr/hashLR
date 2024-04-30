@@ -35,7 +35,7 @@ _main:                                  ## @main
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_1:                                 ## =>This Inner Loop Header: Depth=1
@@ -47,7 +47,7 @@ LBB1_1:                                 ## =>This Inner Loop Header: Depth=1
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_2:                                 ##   in Loop: Header=BB1_1 Depth=1
@@ -57,7 +57,7 @@ LBB1_2:                                 ##   in Loop: Header=BB1_1 Depth=1
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_3:                                 ##   in Loop: Header=BB1_1 Depth=1
@@ -68,7 +68,7 @@ LBB1_3:                                 ##   in Loop: Header=BB1_1 Depth=1
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	callq	*%r10
 	movl	-8(%rbp), %eax
@@ -80,7 +80,7 @@ LBB1_3:                                 ##   in Loop: Header=BB1_1 Depth=1
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_4:                                 ##   in Loop: Header=BB1_1 Depth=1
@@ -93,7 +93,7 @@ LBB1_4:                                 ##   in Loop: Header=BB1_1 Depth=1
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_5:
