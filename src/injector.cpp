@@ -23,19 +23,19 @@
 using namespace std;
 using namespace std::chrono;
 
-static uintptr_t convert(long l)
+static uintptr_t convert(unsigned long l, unsigned long key)
 {
     uintptr_t toret;
     __asm__(
-        "movq $0x237, %%rax \n"
-        "movq %%rax, %%xmm7\n"
         "movq %1, %%rax \n"
+        "movq %%rax, %%xmm7\n"
+        "movq %2, %%rax \n"
         "movq %%rax, %%xmm1\n"
         "aesenc %%xmm7, %%xmm1\n"
         "movd %%xmm1, %%eax \n"
         "movq %%rax, %0\n"
         : "=r"(toret)     /* output */
-        : "r"(l)          /* input */
+        : "r"(key), "r"(l)          /* input */
         : "%rax", "%xmm7" /* clobbered register */
     );
 
@@ -55,8 +55,9 @@ int main(int argc, char *argv[])
     struct user_regs_struct regs;
     int thing = 0;
 
-    vector<uintptr_t> addr;
+    vector<uintptr_t> list;
     vector<vector<uintptr_t>> insts;
+    vector<unsigned> lengths;
 
     char buf[1024];
     snprintf(buf, sizeof(buf), "python3 src/binary_parser.py -b %s -i %s -o %s", argv[1], argv[2], bytes_file_name.c_str());
@@ -73,6 +74,8 @@ int main(int argc, char *argv[])
     string line;
     uintptr_t curr_addr = 0;
     uintptr_t rip = 0;
+    unsigned length = 0;
+    int main_index = 0;
 
     while (getline(bytesFile, line))
     {
@@ -87,27 +90,88 @@ int main(int argc, char *argv[])
             {
                 unsigned long l = stoull(line, 0, 16);
                 insts.back().push_back(l);
+                length += 8;
             }
             else if (line.substr(0, 4).compare("main") == 0)
             {
+                main_index = list.size();
                 unsigned long l = stoull(line.substr(5));
-                curr_addr = convert(l);
-                rip = curr_addr;
-                addr.push_back(curr_addr);
+                list.push_back(l);
                 insts.push_back(*(new vector<uintptr_t>));
+                if(length != 0)
+                {
+                    lengths.push_back(length);
+                    length = 0;
+                }
             }
             else
             {
                 unsigned long l = stoull(line);
-                curr_addr = convert(l);
-                addr.push_back(curr_addr);
+                list.push_back(l);
                 insts.push_back(*(new vector<uintptr_t>));
+                if(length != 0)
+                {
+                    lengths.push_back(length);
+                    length = 0;
+                }
             }
         }
     }
 
     // Close the file
     bytesFile.close();
+
+    vector<uintptr_t> addr;
+    unsigned long key = -1;
+    srand(time(0));
+
+    // Generate a random key and restart if needed
+    while(true)  
+    {
+        // Generate random key
+        key = rand() + ((unsigned long) rand() << 32);
+        bool repeat = false;
+        addr.clear();
+
+        int outer_index = 0;
+        // Check for collisions
+        for(uintptr_t val : list)  
+        {
+            uintptr_t new_addr = convert(val, key);
+        
+            int index = 0;
+            for(uintptr_t curr : addr)  
+            {
+                if(curr <= new_addr && new_addr <= curr + lengths[index])  
+                {
+                    repeat = true;
+                    break;
+                }
+                else if(new_addr <= curr && curr <= new_addr + lengths[outer_index])
+                {
+                    repeat = true;
+                    break;
+                }
+
+                ++index;
+            }
+
+            if(repeat)
+            {
+                break;
+            }
+
+            addr.push_back(convert(val, key));
+            ++outer_index;
+        }
+
+        if(repeat)
+        {
+            continue;
+        }
+
+        break;
+    }
 
     int num_basic_blocks = addr.size() * 2;
     int fulfilled = 0;
@@ -125,6 +189,8 @@ int main(int argc, char *argv[])
 
     sleep(0.05);
 
+    bool give_key = false;
+
     while (true)
     {
 
@@ -133,6 +199,16 @@ int main(int argc, char *argv[])
         if (regs.rdi == 10234)
         {
             break;
+        }
+        else if(regs.rdi == 0xdeadbeef && give_key)
+        {
+            regs.orig_rax = -1;
+            ptrace(PTRACE_SETREGS, pid, 0, &regs);
+            ptrace(PTRACE_SYSCALL, pid, 0, 0);
+            wait(0);
+            regs.rax = key;
+            ptrace(PTRACE_SETREGS, pid, 0, &regs);
+            give_key = false;
         }
         else if (regs.rdi == 0xfeedface)
         {
@@ -144,6 +220,7 @@ int main(int argc, char *argv[])
                 wait(0);
                 regs.rax = 0xfafafafa;
                 ptrace(PTRACE_SETREGS, pid, 0, &regs);
+                give_key = true;
             }
             else
             {
@@ -197,6 +274,7 @@ int main(int argc, char *argv[])
         ++index;
     }
 
+    rip = addr[main_index];
     regs.rip = rip;
 
     ptrace(PTRACE_SETREGS, pid, 0, &regs);

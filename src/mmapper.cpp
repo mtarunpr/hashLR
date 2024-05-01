@@ -12,14 +12,6 @@
 int main()
 {
 
-    __asm__(
-        "movq $0x237, %%rax \n"
-        "movq %%rax, %%xmm7\n"
-        : /* output */
-        : /* input */
-        : /* clobbered register */
-    );
-
     uintptr_t max = (uintptr_t)1 << 32;
 
     int failed = 0;
@@ -35,6 +27,17 @@ int main()
             break;
         }
     }
+
+    // acquire key
+    unsigned long key = ptrace((__ptrace_request) 0xdeadbeef, 0, 0, 0);
+    
+    __asm__(
+        "movq %0, %%rax \n"
+        "movq %%rax, %%xmm7\n"
+        : /* output */
+        : "r"(key) /* input */
+        : /* clobbered register */
+    );
 
     unsigned f = close(10234);
 
