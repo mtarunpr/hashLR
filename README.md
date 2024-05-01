@@ -1,6 +1,10 @@
 # HashLR: Hash Layout Randomization
 
-In the LLVM project repo, to compile LLVM with the additional X86HashLR pass:
+An improvement over address space layout randomization (ASLR) that shuffles the layout of basic blocks in the text section of an executable binary file instead of using a fixed offset. This makes it harder for attackers to predict the location of code in memory. Unlike previous attempts at using lookup tables to implement this shuffling, HashLR uses a hash function to perform the shuffling at runtime without the need for memory access.
+
+## Usage
+
+In the [LLVM project repo](https://github.com/mtarunpr/llvm-project), to compile LLVM with the additional X86HashLR pass:
 
 ```bash
 cmake -S llvm -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86
