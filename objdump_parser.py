@@ -72,8 +72,6 @@ def extract_objdump(objdump_file, output_file, bb_identifiers_file):
                         prev_hex = hex.copy()
                         continue
 
-                    print(hex)
-
                     bb_identifier = bb_identifiers.readline().strip()
 
                     # Write the basic block identifier
