@@ -83,7 +83,7 @@ def extract_bytes(objdump, output_file, bb_identifiers_file):
                     hex_numbers = line.split()
                     hex += hex_numbers
 
-                if len(hex) == 0 or ("jmp" not in block and "ret" not in block):
+                if len(hex) == 0 or ("\tjmp" not in block and "\tret" not in block):
                     continue
 
                 hex = prev_hex + hex
