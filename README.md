@@ -12,7 +12,7 @@ and then compile the LLVM to assembly code (including the additional CodeGen pas
 
 ```bash
 clang -S -emit-llvm -o tests/five_functions/five_functions.ll tests/five_functions/five_functions.c -arch x86_64
-/path/to/llvm/repo/build/bin/llc  tests/five_functions/five_functions.ll -o tests/five_functions/five_functions-hashlr.S  > tests/five_functions/five_functions_bb_identifiers.txt
+/path/to/llvm/repo/build/bin/llc  tests/five_functions/five_functions.ll -o tests/five_functions/five_functions-hashlr.S  > tests/five_functions/five_functions-hashlr_bb_identifiers.txt
 ```
 
 Note that we redirect the output of `llc` (the identifiers of the basic blocks)
@@ -33,7 +33,7 @@ clang -o tests/five_functions/five_functions-hashlr tests/five_functions/five_fu
 To extract the machine code bytes from the executable binary so that the injector can use it:
 
 ```bash
-python binary_parser.py -b tests/five_functions/five_functions-hashlr -i tests/five_functions/five_functions_bb_identifiers.txt -o tests/five_functions/five_functions_bytes.txt
+python binary_parser.py -b tests/five_functions/five_functions-hashlr -i tests/five_functions/five_functions-hashlr_bb_identifiers.txt -o tests/five_functions/five_functions_bytes.txt
 ```
 
 To compile the injector:

@@ -19,6 +19,9 @@
 
 #define PAGESIZE 4096
 
+using namespace std;
+using namespace std::chrono;
+
 static uintptr_t convert(long l)
 {
     uintptr_t toret;
@@ -40,15 +43,13 @@ static uintptr_t convert(long l)
 
 int main(int argc, char *argv[])
 {
+    string bytes_file_name = "temp.bytes";
 
-    if (argc != 2)
+    if (argc != 3)
     {
-        printf("Usage: ./injector [parsed file]\n");
+        printf("Usage: ./injector [binary file] [bb identifiers file]\n");
         exit(1);
     }
-
-    using namespace std;
-    using namespace std::chrono;
 
     struct user_regs_struct regs;
     int thing = 0;
@@ -56,11 +57,15 @@ int main(int argc, char *argv[])
     vector<uintptr_t> addr;
     vector<vector<uintptr_t>> insts;
 
-    ifstream inputFile(argv[1]);
+    char buf[1024];
+    snprintf(buf, sizeof(buf), "python3 binary_parser.py -b %s -i %s -o %s", argv[1], argv[2], bytes_file_name.c_str());
+    system(buf);
 
-    if (!inputFile.is_open())
+    ifstream bytesFile(bytes_file_name);
+
+    if (!bytesFile.is_open())
     {
-        cerr << "Could not open file " << argv[1] << endl;
+        cerr << "Could not open file " << bytes_file_name << endl;
         exit(1);
     }
 
@@ -68,7 +73,7 @@ int main(int argc, char *argv[])
     uintptr_t curr_addr = 0;
     uintptr_t rip = 0;
 
-    while (getline(inputFile, line))
+    while (getline(bytesFile, line))
     {
         if (line.length() >= 4)
         {
@@ -109,7 +114,7 @@ int main(int argc, char *argv[])
     }
 
     // Close the file
-    inputFile.close();
+    bytesFile.close();
 
     int num_basic_blocks = addr.size() * 2;
     int fulfilled = 0;
