@@ -1,6 +1,10 @@
-# CS 263 Final Project
+# HashLR: Hash Layout Randomization
 
-In the LLVM project repo, to compile LLVM with the additional X86HashLR pass:
+An improvement over address space layout randomization (ASLR) that shuffles the layout of basic blocks in the text section of an executable binary file instead of using a fixed offset. This makes it harder for attackers to predict the location of code in memory. Unlike previous attempts at using lookup tables to implement this shuffling, HashLR uses a hash function to perform the shuffling at runtime without the need for memory access.
+
+## Usage
+
+In the [LLVM project repo](https://github.com/mtarunpr/llvm-project), to compile LLVM with the additional X86HashLR pass:
 
 ```bash
 cmake -S llvm -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86
@@ -8,7 +12,7 @@ ninja -C build
 ```
 
 In this repo, to compile (to LLVM) the code you want to run the pass on (say `tests/five_functions/five_functions.c`),
-and then compile the LLVM to assembly code (including the additional CodeGen pass):
+and then compile the LLVM to assembly code (including the additional X86HashLR pass):
 
 ```bash
 clang -S -emit-llvm -o tests/five_functions/five_functions.ll tests/five_functions/five_functions.c -arch x86_64
@@ -30,21 +34,15 @@ To compile the HashLR version of the assembly code to an executable binary file:
 clang -o tests/five_functions/five_functions-hashlr tests/five_functions/five_functions-hashlr.S -arch x86_64
 ```
 
-To extract the machine code bytes from the executable binary so that the injector can use it:
-
-```bash
-python binary_parser.py -b tests/five_functions/five_functions-hashlr -i tests/five_functions/five_functions-hashlr_bb_identifiers.txt -o tests/five_functions/five_functions_bytes.txt
-```
-
-To compile the injector:
+To compile the hashLR injector and mmapper:
 
 ```bash
 g++ src/injector.cpp -o src/injector
 g++ src/mmapper.cpp -o src/mmapper
 ```
 
-To read the machine code bytes and run the HashLR version of the executable:
+To run the HashLR version of the executable:
 
 ```bash
-./src/injector tests/five_functions/five_functions_bytes.txt
+./src/injector tests/five_functions/five_functions-hashlr tests/five_functions/five_functions-hashlr_bb_identifiers.txt
 ```
