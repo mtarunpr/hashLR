@@ -47,13 +47,10 @@ def extract_objdump(objdump_file, output_file, bb_identifiers_file):
                 # Extract all basic blocks
                 basic_blocks = re.findall(r".+?(?:jmp|ret|>:)", objdump, re.DOTALL)
 
-                dont_reset_next = False
+                prev_hex = []
                 # For each block, extract machine code
                 for block in basic_blocks:
-                    if dont_reset_next:
-                        dont_reset_next = False
-                    else:
-                        hex = []
+                    hex = []
 
                     # Extract all lines
                     x86_lines = re.findall(
@@ -68,8 +65,11 @@ def extract_objdump(objdump_file, output_file, bb_identifiers_file):
                     if len(hex) == 0 or ("jmp" not in block and "ret" not in block):
                         continue
 
+                    hex = prev_hex + hex
+                    prev_hex = []
+
                     if any(jump in block for jump in conditional_jumps):
-                        dont_reset_next = True
+                        prev_hex = hex.copy()
                         continue
 
                     bb_identifier = bb_identifiers.readline().strip()
