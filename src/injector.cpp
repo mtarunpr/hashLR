@@ -16,6 +16,7 @@
 #include <fstream>
 #include <string>
 #include <chrono>
+#include <cassert>
 
 #define PAGESIZE 4096
 
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
     vector<vector<uintptr_t>> insts;
 
     char buf[1024];
-    snprintf(buf, sizeof(buf), "python3 binary_parser.py -b %s -i %s -o %s", argv[1], argv[2], bytes_file_name.c_str());
+    snprintf(buf, sizeof(buf), "python3 src/binary_parser.py -b %s -i %s -o %s", argv[1], argv[2], bytes_file_name.c_str());
     system(buf);
 
     ifstream bytesFile(bytes_file_name);
@@ -85,28 +86,21 @@ int main(int argc, char *argv[])
             else if (line[0] == '0' && line[1] == 'x')
             {
                 unsigned long l = stoull(line, 0, 16);
-                // ptrace(PTRACE_POKEDATA, pid, curr_addr, l);
                 insts.back().push_back(l);
-                // printf("code %p\n", (void*) l);
             }
             else if (line.substr(0, 4).compare("main") == 0)
             {
-                // cout << line.substr(5) << "\n";
                 unsigned long l = stoull(line.substr(5));
                 curr_addr = convert(l);
                 rip = curr_addr;
-                printf("%p\n", (void *)curr_addr);
                 addr.push_back(curr_addr);
                 insts.push_back(*(new vector<uintptr_t>));
-                // addr.push_back(curr_addr);
             }
             else
             {
-                // cout << line << "\n";
                 unsigned long l = stoull(line);
                 curr_addr = convert(l);
                 printf("%p\n", (void *)curr_addr);
-                // addr.push_back(curr_addr);
                 addr.push_back(curr_addr);
                 insts.push_back(*(new vector<uintptr_t>));
             }
@@ -124,11 +118,10 @@ int main(int argc, char *argv[])
     if (pid == 0)
     {
         ptrace(PTRACE_TRACEME, 0, 0, 0);
-        // assert(r >= 0);
 
-        execlp("./mmapper", "./mmapper", nullptr);
+        execlp("./src/mmapper", "./src/mmapper", nullptr);
 
-        // assert(false);
+        assert(false);
     }
 
     sleep(0.05);

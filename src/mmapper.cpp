@@ -36,9 +36,9 @@ int main()
         }
     }
 
-    uintptr_t f = close(10234);
+    unsigned f = close(10234);
 
-    printf("Return value %p\n", (void *)f);
+    printf("Return value %u\n", f);
 
     exit(0);
 }
