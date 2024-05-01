@@ -176,6 +176,7 @@ int main(int argc, char* argv[]) {
     }
 
     regs.rip = rip;
+    
 
     ptrace(PTRACE_SETREGS, pid, 0, &regs);
 

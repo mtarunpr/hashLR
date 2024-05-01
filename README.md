@@ -44,13 +44,18 @@ To parse the objdump file into machine code bytes (the file names/paths can be e
 python objdump_parser.py
 ```
 
-To compile the injector and mmapper:    
+Note that due to addresses above `0x7fffffff` being unable to be mapped for our code, we manually changed some identifiers after running the parser. If all code addresses are fine, then this extra step after parsing is unnecessary.
+
+To compile the injector:    
 ```bash
-TODO
+g++ injector.cpp -o injector
+gcc mmapper.o -o mmapper
 ```
+
+Note that for our testing, we opted to explicitly set the key (reason is given in the paper). Hence, if mmapper is separately compiled, instructions to set %xmm7 to 0x237 (our chosen key for testing) should be added at the beginning.
     
 
 To read the machine code bytes and run the HashLR version of the executable:
 ```bash
-TODO
+./injector [parsed_file]
 ```
