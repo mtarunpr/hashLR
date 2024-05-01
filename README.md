@@ -12,7 +12,7 @@ ninja -C build
 ```
 
 In this repo, to compile (to LLVM) the code you want to run the pass on (say `tests/five_functions/five_functions.c`),
-and then compile the LLVM to assembly code (including the additional CodeGen pass):
+and then compile the LLVM to assembly code (including the additional X86HashLR pass):
 
 ```bash
 clang -S -emit-llvm -o tests/five_functions/five_functions.ll tests/five_functions/five_functions.c -arch x86_64
