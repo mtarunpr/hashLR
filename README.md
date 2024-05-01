@@ -49,10 +49,8 @@ Note that due to addresses above `0x7fffffff` being unable to be mapped for our 
 To compile the injector:    
 ```bash
 g++ injector.cpp -o injector
-gcc mmapper.o -o mmapper
+g++ mmapper.cpp -o mmapper
 ```
-
-Note that for our testing, we opted to explicitly set the key (reason is given in the paper). Hence, if mmapper is separately compiled, instructions to set %xmm7 to 0x237 (our chosen key for testing) should be added at the beginning.
     
 
 To read the machine code bytes and run the HashLR version of the executable:

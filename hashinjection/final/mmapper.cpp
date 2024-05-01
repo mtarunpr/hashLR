@@ -11,6 +11,15 @@
 
 int main() { 
 
+    __asm__
+    (
+    "movq $0x237, %%rax \n"
+    "movq %%rax, %%xmm7\n"
+    :  /* output */
+    : /* input */
+    : /* clobbered register */
+    );
+
     uintptr_t max = (uintptr_t) 1 << 32;
 
     int failed = 0;
