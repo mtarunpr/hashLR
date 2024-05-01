@@ -21,7 +21,7 @@ _main:                                  ## @main
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	callq	*%r10
 	cmpl	$0, -4(%rbp)
@@ -32,7 +32,7 @@ _main:                                  ## @main
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB0_1:
@@ -42,7 +42,7 @@ LBB0_1:
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB0_2:
@@ -54,7 +54,7 @@ LBB0_2:
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	callq	*%r10
 	movabsq	$8246626412459133486, %r10      ## imm = 0x7271E70795FB0A2E
@@ -63,7 +63,7 @@ LBB0_2:
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB0_3:
@@ -80,7 +80,7 @@ LBB0_3:
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	callq	*%r10
 	movabsq	$8246626412459133486, %r10      ## imm = 0x7271E70795FB0A2E
@@ -89,7 +89,7 @@ LBB0_3:
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB0_4:
@@ -118,7 +118,7 @@ _hello:                                 ## @hello
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	callq	*%r10
 	cmpl	$3, -8(%rbp)
@@ -129,7 +129,7 @@ _hello:                                 ## @hello
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_1:
@@ -139,7 +139,7 @@ LBB1_1:
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_2:
@@ -150,7 +150,7 @@ LBB1_2:
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_3:
@@ -161,7 +161,7 @@ LBB1_3:
 	aesenc	%xmm7, %xmm1
 	## InlineAsm End
 	## InlineAsm Start
-	movq	%xmm1, %r10
+	movd	%xmm1, %r10d
 	## InlineAsm End
 	jmpq	*%r10
 LBB1_4:
