@@ -1,8 +1,8 @@
-	.section	__TEXT,__text,regular,pure_instructions
-	.build_version macos, 14, 0
-	.globl	__Z4funci                       ## -- Begin function _Z4funci
+	.file	"runner-hashlr.cpp"
+	.text
+	.globl	_Z4funci                       ## -- Begin function _Z4funci
 	.p2align	4, 0x90
-__Z4funci:                              ## @_Z4funci
+_Z4funci:                              ## @_Z4funci
 	.cfi_startproc
 ## %bb.0:
 	pushq	%rbp
@@ -15,9 +15,9 @@ __Z4funci:                              ## @_Z4funci
 	retq
 	.cfi_endproc
                                         ## -- End function
-	.globl	_main                           ## -- Begin function main
+	.globl	main                           ## -- Begin function main
 	.p2align	4, 0x90
-_main:                                  ## @main
+main:                                  ## @main
 	.cfi_startproc
 ## %bb.0:
 	pushq	%rbp
@@ -103,4 +103,3 @@ LBB1_5:
 	retq
 	.cfi_endproc
                                         ## -- End function
-.subsections_via_symbols

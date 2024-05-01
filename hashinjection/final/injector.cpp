@@ -14,7 +14,8 @@
 #include <string.h>
 #include <vector>
 #include <fstream> 
-#include <string> 
+#include <string>
+#include <chrono>
 
 #define PAGESIZE 4096
 
@@ -37,22 +38,15 @@ static uintptr_t convert(long l)  {
     return toret;
 }
 
-int main() { 
+int main(int argc, char* argv[]) { 
 
-    using namespace std;
-
-    pid_t pid = fork();
-
-    if(pid == 0)  {
-        ptrace(PTRACE_TRACEME, 0, 0, 0);
-        //assert(r >= 0);
-
-        execlp("./mmapperhashlrread", "./mmapperhashlrread", nullptr);
-        
-        //assert(false);
+    if(argc != 2)  {
+        printf("Usage: ./injector [parsed file]\n");
+        exit(1);
     }
 
-    sleep(0.05);
+    using namespace std;
+    using namespace std::chrono;
 
     struct user_regs_struct regs;
     int thing = 0;
@@ -60,11 +54,11 @@ int main() {
     vector<uintptr_t> addr;
     vector<vector<uintptr_t>> insts;
 
-    ifstream inputFile("bytes2.txt"); 
+    ifstream inputFile(argv[1]); 
   
     if (!inputFile.is_open()) { 
-        //cerr << "Could not open file bytes.txt" << endl; 
-        return 1; 
+        cerr << "Could not open file " << argv[1] << endl; 
+        exit(1);
     } 
   
     string line;
@@ -74,7 +68,9 @@ int main() {
     while(getline(inputFile, line))  {
         if(line.length() >= 4)  {
             //cout << "new line " << line << "\n";
-            if(line[0] == '0' && line[1] == 'x')  {
+            if(line[0] == '#')  {
+                continue;
+            } else if(line[0] == '0' && line[1] == 'x')  {
                 unsigned long l = stoull(line, 0, 16);
                 //ptrace(PTRACE_POKEDATA, pid, curr_addr, l);
                 insts.back().push_back(l);
@@ -84,7 +80,7 @@ int main() {
                 unsigned long l = stoull(line.substr(5));
                 curr_addr = convert(l);
                 rip = curr_addr;
-                //printf("%p\n", (void*) curr_addr);
+                printf("%p\n", (void*) curr_addr);
                 addr.push_back(curr_addr);
                 insts.push_back(*(new vector<uintptr_t>));
                 //addr.push_back(curr_addr);
@@ -92,7 +88,7 @@ int main() {
                 //cout << line << "\n";
                 unsigned long l = stoull(line);
                 curr_addr = convert(l);
-                //printf("%p\n", (void*) curr_addr);
+                printf("%p\n", (void*) curr_addr);
                 //addr.push_back(curr_addr);
                 addr.push_back(curr_addr);
                 insts.push_back(*(new vector<uintptr_t>));
@@ -106,7 +102,19 @@ int main() {
     int num_basic_blocks = addr.size() * 2;
     int fulfilled = 0;
 
-    // Wait until exit
+    pid_t pid = fork();
+
+    if(pid == 0)  {
+        ptrace(PTRACE_TRACEME, 0, 0, 0);
+        //assert(r >= 0);
+
+        execlp("./mmapper", "./mmapper", nullptr);
+        
+        //assert(false);
+    }
+
+    sleep(0.05);
+
     while(true)  {
 
         ptrace(PTRACE_GETREGS, pid, 0, &regs);
@@ -173,9 +181,15 @@ int main() {
 
     int status = -5;
 
+    auto start = chrono::high_resolution_clock::now();
+
     ptrace(PTRACE_DETACH, pid, 0, 0);
 
     waitpid(pid, &status, 0);
+
+    auto end = chrono::high_resolution_clock::now(); 
+
+    cout << "Time elapsed: " << chrono::duration_cast<milliseconds>(end - start).count() << " ms\n";
 
     exit(0);
 } 

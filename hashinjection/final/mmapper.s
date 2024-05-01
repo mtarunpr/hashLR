@@ -1,10 +1,10 @@
-	.file	"mmapperhashlrread.cpp"
+	.file	"mmapper.cpp"
 	.text
 	.section	.rodata
 .LC0:
 	.string	"int main()"
 .LC1:
-	.string	"mmapperhashlrread.cpp"
+	.string	"mmapper.cpp"
 .LC2:
 	.string	"f != -1"
 .LC3:
@@ -17,13 +17,13 @@ main:
 	.cfi_startproc
 	endbr64
 	pushq	%rbp
+	movq	$0x237, %rax
+	movq	%rax, %xmm7
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
 	subq	$32, %rsp
-	movq	$0x237, %rax
-	movq	%rax, %xmm7
 	movabsq	$4294967296, %rax
 	movq	%rax, -16(%rbp)
 	movl	$0, -28(%rbp)
