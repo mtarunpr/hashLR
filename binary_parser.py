@@ -64,7 +64,6 @@ def extract_bytes(objdump, output_file, bb_identifiers_file):
     for section in remove_sections:
         # objdump = re.sub("stubs", "", objdump, re.DOTALL)
         objdump = re.sub(section + r"\>:.+?(?:\n\d+\s\<|\Z)", "", objdump, flags=re.DOTALL)
-    print(objdump)
 
     with open(bb_identifiers_file, "r") as bb_identifiers:
         with open(output_file, "w") as out:
