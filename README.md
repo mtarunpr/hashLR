@@ -36,8 +36,6 @@ To extract the machine code bytes from the executable binary so that the injecto
 python binary_parser.py -b example-hashlr -i example_bb_identifiers.txt -o example_bytes.txt
 ```
 
-Note that due to addresses above `0x7fffffff` being unable to be mapped for our code, we manually changed some identifiers after running the parser. If all code addresses are fine, then this extra step after parsing is unnecessary.
-
 To compile the injector:
 
 ```bash
