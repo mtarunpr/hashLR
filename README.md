@@ -1,4 +1,4 @@
-# CS 263 Final Project
+# HashLR: Hash Layout Randomization
 
 In the LLVM project repo, to compile LLVM with the additional X86HashLR pass:
 
@@ -30,21 +30,15 @@ To compile the HashLR version of the assembly code to an executable binary file:
 clang -o tests/five_functions/five_functions-hashlr tests/five_functions/five_functions-hashlr.S -arch x86_64
 ```
 
-To extract the machine code bytes from the executable binary so that the injector can use it:
-
-```bash
-python binary_parser.py -b tests/five_functions/five_functions-hashlr -i tests/five_functions/five_functions-hashlr_bb_identifiers.txt -o tests/five_functions/five_functions_bytes.txt
-```
-
-To compile the injector:
+To compile the hashLR injector and mmapper:
 
 ```bash
 g++ src/injector.cpp -o src/injector
 g++ src/mmapper.cpp -o src/mmapper
 ```
 
-To read the machine code bytes and run the HashLR version of the executable:
+To run the HashLR version of the executable:
 
 ```bash
-./src/injector tests/five_functions/five_functions_bytes.txt
+./src/injector tests/five_functions/five_functions-hashlr tests/five_functions/five_functions-hashlr_bb_identifiers.txt
 ```
