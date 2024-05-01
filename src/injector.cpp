@@ -100,7 +100,6 @@ int main(int argc, char *argv[])
             {
                 unsigned long l = stoull(line);
                 curr_addr = convert(l);
-                printf("%p\n", (void *)curr_addr);
                 addr.push_back(curr_addr);
                 insts.push_back(*(new vector<uintptr_t>));
             }
