@@ -4,7 +4,14 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/lib/llvm-14/include"
+                "/opt/homebrew/Cellar/llvm/17.0.6_1/lib",
+                "/opt/homebrew/Cellar/llvm/17.0.6_1/include"
+                // "/usr/local/include",
+                // "/usr/local/lib"
+                // "/Users/mtarunpr/Code/cs263/llvm-project/llvm/lib",
+                // "/Users/mtarunpr/Code/cs263/llvm-project/llvm/include",
+                // "/Users/mtarunpr/Code/cs263/llvm-project/build/include",
+                // "/Users/mtarunpr/Code/cs263/llvm-project/build/lib"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

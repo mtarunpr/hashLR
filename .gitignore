@@ -1,2 +1,5 @@
-.DS_Store
-llvm-project/
+**/.DS_Store
+*
+!/**/
+!*.*
+*.o
